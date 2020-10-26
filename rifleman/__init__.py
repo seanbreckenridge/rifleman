@@ -16,7 +16,7 @@ ENCODING = "utf-8"
 # number of lines to check before skipping this file
 SHEBANG_LIMIT = 50
 
-NO_COMMAND = "No Action"
+IGNORE = "ignore"
 _CACHED_EXECUTABLES: Set[str] = set()
 
 PathIsh = Union[str, Path]
@@ -243,7 +243,7 @@ class RifleMan:
                     break  # break out of rules
             else:
                 # if no rules matched - this didnt match any conditions
-                actions[NO_COMMAND].append(fname)
+                actions[IGNORE].append(fname)
         return actions
 
     def _build_command(self, files: Files, action: str) -> str:
@@ -259,7 +259,7 @@ class RifleMan:
         """
         Executes the action for the given files
         """
-        if action != NO_COMMAND:
+        if action != IGNORE:
             # if '$1' is specified, run action once for each file
             if '"$1"' in action:
                 for fname in files:

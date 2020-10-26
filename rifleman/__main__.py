@@ -9,6 +9,28 @@ from typing import Optional
 
 from . import RifleMan, Actions, Files
 
+CONF_RAW: str = "https://gitlab.com/seanbreckenridge/rifleman/-/raw/master/config/{}"
+FORMAT_FNAME: str = "format.conf"
+LINT_FNAME: str = "lint.conf"
+
+
+def _download_configuration(url: str, to_file: Path) -> None:
+    import requests
+
+    try:
+        with to_file.open("wb") as out_file:
+            out_file.write(requests.get(url).content)
+    except Exception as e:
+        print(str(e))
+        print(
+            "Error: Could not download '{}' to '{}'...".format(url, str(to_file)),
+            file=sys.stderr,
+        )
+        print(
+            "Download the file from that the URL and put it at {}".format(str(to_file))
+        )
+        raise SystemExit(1)
+
 
 def find_conf_dir() -> Path:
     """Find configuration file path"""
@@ -18,12 +40,14 @@ def find_conf_dir() -> Path:
     if not conf_dir.exists():
         print("Creating configuration directory...")
         conf_dir.mkdir(exist_ok=True)
-    default_format_conf: Path = conf_dir / 'format.conf'
-    default_lint_conf: Path = conf_dir / 'lint.conf'
-    if not default_format_conf.exists():
-        print("Copying format.conf...")
-    if not default_lint_conf.exists():
-        print("Copying lint.conf...")
+        default_format_conf: Path = conf_dir / FORMAT_FNAME
+        default_lint_conf: Path = conf_dir / LINT_FNAME
+        if not default_format_conf.exists():
+            print("Downloading format.conf...")
+            _download_configuration(CONF_RAW.format(FORMAT_FNAME), default_format_conf)
+        if not default_lint_conf.exists():
+            print("Downloading lint.conf...")
+            _download_configuration(CONF_RAW.format(LINT_FNAME), default_lint_conf)
     return conf_dir
 
 
@@ -59,6 +83,7 @@ def main() -> None:
             "|".join([c.rstrip(".conf") for c in os.listdir(str(conf_dir))])
         ),
     )
+    # TODO(sean): add -p flag to prompt before running each
     options, positionals = parser.parse_args()
     if not positionals:
         parser.print_help()

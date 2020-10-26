@@ -2,6 +2,6 @@ include *.in
 include LICENSE
 include mypy.ini
 include pytest.ini
-recursive-include config *.conf
 recursive-include rifleman *.typed
+recursive-exclude config *.conf
 recursive-exclude tests *.py

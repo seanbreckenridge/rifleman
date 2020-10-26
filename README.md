@@ -2,11 +2,11 @@
 
 An extendible dispatcher to lint/format code, based on [rifle](https://github.com/ranger/ranger)
 
-This lets you run one command over lots of files/directories which could be in different languages; classifies them by inspecting the mime type, extension, name or shebang, and then runs a command on those files.
+This lets you run one command over lots of files/directories which could be in different languages - it classifies them by inspecting the mime type, extension, name or shebang, and then runs a command on those files.
 
 This heavily simplifies and modifies the rifle config file format; including a condition to help check the 'shebang' value for scripts.
 
-See [config/format.conf](./config/format.conf) for the default configuration file, I recommend you customize it to include your formatters.
+See [config/format.conf](./config/format.conf) for the default configuration file, I recommend you customize it to include the commands you use.
 
 By default, I've included lots of the `format`ers/`lint`ers I use, an excerpt:
 
@@ -56,7 +56,7 @@ Options:
   -j              list actions for files as JSON
   -c CONFIG_FILE  read config from specified file instead of default
   -a ACTION       name of configuration file in config directory to use
-                  (format)
+                  (format|lint)
 ```
 
 This doesn't offer a way to discover/search for files, because so many tools already exist to do that.
@@ -79,7 +79,7 @@ The `-c` and `-a` files are used to determine which config file to use, complete
 
 By default, it uses the `format.conf` file in the `${XDG_CONFIG_HOME:-${HOME}/.config}/rifleman` directory. `-a` is a shorthand; specifying `-a lint` looks for a file in the configuration directory called `lint.conf`
 
-When this is first run, it will try to install the configuration files into the corresponding directories.
+When this is first run, it will try to download the configuration files into the corresponding directories.
 
 # Tests
 
