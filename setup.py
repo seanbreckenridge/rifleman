@@ -20,7 +20,7 @@ setup(
     packages=find_packages(include=["rifleman"]),
     test_suite="tests",
     install_requires=requirements,
-    keywords="",
+    keywords="lint",
     entry_points={"console_scripts": ["rifleman = rifleman.__main__:main"]},
     extras_require={
         "testing": [
