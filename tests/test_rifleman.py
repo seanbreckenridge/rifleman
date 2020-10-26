@@ -13,9 +13,10 @@ def test_format() -> None:
     # basic test to check if this classifies files fine
     r = rifleman.RifleMan(config_file)
     r.reload_config()
-    r_dict = {r:cond for r, cond in r.rules}
+    r_dict = {r: cond for r, cond in r.rules}
     assert 'black "$@"' in r_dict
     assert 'prettier -w "$@"' in r_dict
+
 
 if __name__ == "__main__":
     pytest.main()

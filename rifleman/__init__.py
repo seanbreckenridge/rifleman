@@ -139,7 +139,7 @@ class RifleMan:
                 raise ValueError("Line without delimiter")
             tests, command = line.split(self.delimiter1, 1)
             test_conditions = tests.split(self.delimiter2)
-            test_tup: Condition = tuple(tuple(f.strip().split(None, 1)) for f in test_conditions)  # type: ignore
+            test_tup: Condition = tuple(tuple(f.strip().split(None, 1)) for f in test_conditions)  # type: ignore[misc]
             self.rules.append((command.strip(), test_tup))
         fobj.close()
 
@@ -235,7 +235,8 @@ class RifleMan:
                 continue
             for cmd, tests in self.rules:
                 for test in tests:
-                    if not self._eval_condition(test, fname):  # type: ignore
+                    # unsure why mypy cant catch that test is of type Condition
+                    if not self._eval_condition(test, fname):  # type: ignore[arg-type]
                         break  # break out of tests
                 else:
                     # none of the rules failed, this matches the action
