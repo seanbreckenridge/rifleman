@@ -1,5 +1,7 @@
 # rifleman
 
+[![PyPi version](https://img.shields.io/pypi/v/rifleman.svg)](https://pypi.python.org/pypi/rifleman) [![Python 3.6|3.7|3.8](https://img.shields.io/pypi/pyversions/rifleman.svg)](https://pypi.python.org/pypi/rifleman) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
 An extendible dispatcher to lint/format code, based on [rifle](https://github.com/ranger/ranger)
 
 This lets you run one command over lots of files/directories which could be in different languages - it classifies them by inspecting the mime type, extension, name or shebang, and then runs a command on those files.
