@@ -90,10 +90,23 @@ By default, it uses the `format.conf` file in the `${XDG_CONFIG_HOME:-${HOME}/.c
 
 When this is first run, it will try to download the configuration files into the corresponding directories.
 
-# Tests
+### Example
 
-    git clone 'https://github.com/seanbreckenridge/rifleman'
-    cd ./rifleman
-    pip install '.[testing]'
-    mypy ./rifleman
-    pytest
+```bash
+$ rifleman *.md $(fd \.py$)
+Running: /bin/sh -c set -- 'README.md'; prettier -w "$@"
+README.md 88ms
+Running: /bin/sh -c set -- 'rifleman/__init__.py' 'rifleman/__main__.py' 'setup.py' 'tests/test_rifleman.py'; black "$@"
+All done! ✨ 🍰 ✨
+4 files left unchanged.
+```
+
+### Tests
+
+```bash
+git clone 'https://github.com/seanbreckenridge/rifleman'
+cd ./rifleman
+pip install '.[testing]'
+mypy ./rifleman
+pytest
+```
