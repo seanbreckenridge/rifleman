@@ -9,7 +9,7 @@ with io.open("README.md", encoding="utf-8") as fo:
 
 setup(
     name="rifleman",
-    version="0.1.0",
+    version="0.1.1",
     url="https://github.com/seanbreckenridge/rifleman",
     author="Sean Breckenridge",
     author_email="seanbrecke@gmail.com",

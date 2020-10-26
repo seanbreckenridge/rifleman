@@ -50,15 +50,16 @@ To install with pip, run:
 ## Usage
 
 ```
-Usage: rifleman [-ljcah] [files]...
+Usage: rifleman [-ljpcah] [files]...
 
 Options:
   -h, --help      show this help message and exit
   -l              list actions for files
   -j              list actions for files as JSON
+  -p              prompt before running each command
   -c CONFIG_FILE  read config from specified file instead of default
   -a ACTION       name of configuration file in config directory to use
-                  (format|lint)
+                  (lint|format)
 ```
 
 This doesn't offer a way to discover/search for files, because so many tools already exist to do that.

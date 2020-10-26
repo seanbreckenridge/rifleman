@@ -6,7 +6,7 @@ from pathlib import Path
 from subprocess import Popen, PIPE
 from collections import defaultdict
 
-from typing import Optional, List, Union, Dict, Tuple, Mapping, Set
+from typing import Optional, List, Union, Dict, Tuple, Mapping, Set, Callable
 
 # Options and constants that a user might want to change:
 
@@ -95,9 +95,17 @@ def _is_terminal() -> bool:
     return True
 
 
-def Popen_log(cmd: List[str], print_cmd: bool = True) -> None:
+def Popen_handler(
+    cmd: List[str],
+    print_cmd: bool = True,
+    prompt_func: Optional[Callable[[str], bool]] = None,
+) -> None:
+    cmd_str: str = " ".join(cmd)
+    if prompt_func is not None:
+        if not prompt_func(cmd_str):
+            return
     if print_cmd:
-        print("Running: {}".format(" ".join(cmd)))
+        print("Running: {}".format(cmd_str))
     Popen(cmd).wait()
 
 
@@ -256,17 +264,27 @@ class RifleMan:
         )
         return "set -- '%s'; %s" % (filenames, action)
 
-    def execute(self, action: str, files: Files) -> None:
+    def execute(
+        self,
+        action: str,
+        files: Files,
+        prompt_func: Optional[Callable[[str], bool]] = None,
+    ) -> None:
         """
         Executes the action for the given files
         """
+        # probably not needed here as checked in __main__
+        # leaving for possible library-usage
         if action != IGNORE:
             # if '$1' is specified, run action once for each file
             if '"$1"' in action:
                 for fname in files:
-                    Popen_log(self._prefix + [self._build_command([fname], action)])
+                    Popen_handler(
+                        self._prefix + [self._build_command([fname], action)],
+                        prompt_func=prompt_func,
+                    )
             else:
-                Popen_log(self._prefix + [self._build_command(files, action)])
-        else:
-            for fname in files:
-                print("No action for {}".format(fname))
+                Popen_handler(
+                    self._prefix + [self._build_command(files, action)],
+                    prompt_func=prompt_func,
+                )

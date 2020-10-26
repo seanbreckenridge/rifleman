@@ -7,7 +7,7 @@ from optparse import OptionParser
 
 from typing import Optional
 
-from . import RifleMan, Actions, Files
+from . import RifleMan, Actions, Files, IGNORE
 
 CONF_RAW: str = "https://gitlab.com/seanbreckenridge/rifleman/-/raw/master/config/{}"
 FORMAT_FNAME: str = "format.conf"
@@ -56,7 +56,7 @@ def main() -> None:
 
     conf_dir: Path = find_conf_dir()
 
-    parser = OptionParser(usage="rifleman [-ljcah] [files]...")
+    parser = OptionParser(usage="rifleman [-ljpcah] [files]...")
     parser.add_option(
         "-l",
         action="store_true",
@@ -66,6 +66,11 @@ def main() -> None:
         "-j",
         action="store_true",
         help="list actions for files as JSON",
+    )
+    parser.add_option(
+        "-p",
+        action="store_true",
+        help="prompt before running each command",
     )
     parser.add_option(
         "-c",
@@ -83,7 +88,6 @@ def main() -> None:
             "|".join([c.rstrip(".conf") for c in os.listdir(str(conf_dir))])
         ),
     )
-    # TODO(sean): add -p flag to prompt before running each
     options, positionals = parser.parse_args()
     if not positionals:
         parser.print_help()
@@ -115,13 +119,30 @@ def main() -> None:
 
     rfman = RifleMan(conf_path)
     rfman.reload_config()
-    resp: Optional[str] = run(rfman, options.l, options.j, positionals)
+    resp: Optional[str] = run(rfman, options.l, options.j, options.p, positionals)
     if resp is not None:
         print(resp)
 
 
+def confirm(message: str) -> bool:
+    """
+    Prompt the user to run a command
+    """
+    p_msg = f"Command: {message}\nRun? [Y/n] "
+    while True:
+        try:
+            resp: str = input(p_msg).strip()
+            return resp not in ["no", "n", "0", "off", "false", "f"]
+        except EOFError:
+            return False
+
+
 def run(
-    rfman: RifleMan, list_actions: bool, json_actions: bool, files: Files
+    rfman: RifleMan,
+    list_actions: bool,
+    json_actions: bool,
+    prompt_before_executing: bool,
+    files: Files,
 ) -> Optional[str]:
     # main wrapper
     # if user provided a flag to print actions
@@ -138,7 +159,15 @@ def run(
         return buf.strip()
     else:
         for action, files in actions.items():
-            rfman.execute(action, files)
+            if action == IGNORE:
+                for fname in files:
+                    print("No action for {}".format(fname))
+            else:
+                rfman.execute(
+                    action,
+                    files,
+                    prompt_func=confirm if prompt_before_executing else None,
+                )
     return None
 
 
