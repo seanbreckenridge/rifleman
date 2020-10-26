@@ -64,7 +64,13 @@ Options:
 
 This doesn't offer a way to discover/search for files, because so many tools already exist to do that.
 
-For example, to run this against all files in a git-tracked directory:
+With shell globbing:
+
+```bash
+rifleman *.md ./project/*.py
+```
+
+To run this against all files in a git-tracked directory:
 
 ```bash
 rifleman $(git ls-files)

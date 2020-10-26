@@ -239,6 +239,8 @@ class RifleMan:
     def collect_actions(self, files: Files) -> Actions:
         actions: Actions = defaultdict(list)
         for fname in files:
+            if not os.path.exists(fname):
+                self.__class__.logger("Path doesn't exist: {}".format(fname))
             if not os.path.isfile(fname):  # ignore non-files
                 continue
             for cmd, tests in self.rules:
