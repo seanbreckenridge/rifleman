@@ -161,7 +161,7 @@ def run(
         for action, files in actions.items():
             if action == IGNORE:
                 for fname in files:
-                    print("No action for {}".format(fname))
+                    print("No action for {}".format(fname), file=sys.stderr)
             else:
                 rfman.execute(
                     action,
