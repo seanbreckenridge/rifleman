@@ -37,7 +37,7 @@ def _download_configuration(url: str, to_file: Path) -> None:
 
 def find_conf_dir() -> Path:
     """Find configuration file path"""
-    conf_dir: Path = Path("~/.config/rifleman").absolute()
+    conf_dir: Path = Path("~/.config/rifleman").expanduser().absolute()
     if "XDG_CONFIG_HOME" in os.environ and os.environ["XDG_CONFIG_HOME"]:
         conf_dir = Path(os.environ["XDG_CONFIG_HOME"]) / "rifleman"
     if not conf_dir.exists():
