@@ -9,6 +9,9 @@ from typing import Optional
 
 from . import RifleMan, Actions, Files, IGNORE
 
+
+DESCRIPTION: str = """Pass '-' to read filenames from STDIN, separated by newlines"""
+
 CONF_RAW: str = "https://gitlab.com/seanbreckenridge/rifleman/-/raw/master/config/{}"
 FORMAT_FNAME: str = "format.conf"
 LINT_FNAME: str = "lint.conf"
@@ -56,7 +59,9 @@ def main() -> None:
 
     conf_dir: Path = find_conf_dir()
 
-    parser = OptionParser(usage="rifleman [-ljpcah] [files]...")
+    parser = OptionParser(
+        usage="rifleman [-] [-ljpcah] [files]...", description=DESCRIPTION
+    )
     parser.add_option(
         "-l",
         action="store_true",
@@ -89,6 +94,13 @@ def main() -> None:
         ),
     )
     options, positionals = parser.parse_args()
+    if positionals == ["-"]:
+        # replace positional arguments with lines from STDIN
+        positionals = []
+        for ln in sys.stdin.readlines():
+            lns: str = ln.rstrip(os.linesep)
+            if lns:
+                positionals.append(lns)
     if not positionals:
         parser.print_help()
         raise SystemExit(1)
