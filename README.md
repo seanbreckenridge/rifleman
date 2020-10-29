@@ -75,7 +75,7 @@ rifleman *.md ./project/*.py
 To run this against all files in a git-tracked directory:
 
 ```bash
-rifleman $(git ls-files)
+git ls-files | rifleman -
 ```
 
 You can `find` (with the `-exec` flag), or the friendlier [`fd`](https://github.com/sharkdp/fd), to run against all files in the directory recursively:
