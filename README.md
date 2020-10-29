@@ -50,7 +50,9 @@ To install with pip, run:
 ## Usage
 
 ```
-Usage: rifleman [-ljpcah] [files]...
+Usage: rifleman [-] [-ljpcah] [files]...
+
+Pass '-' to read filenames from STDIN, separated by newlines
 
 Options:
   -h, --help      show this help message and exit
