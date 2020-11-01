@@ -172,7 +172,12 @@ def run(
     else:
         for action, files in actions.items():
             if action == IGNORE:
-                print("No action for files: {}".format(", ".join([f"'{fl}'" for fl in files])), file=sys.stderr)
+                print(
+                    "No action for files: {}".format(
+                        ", ".join([f"'{fl}'" for fl in files])
+                    ),
+                    file=sys.stderr,
+                )
             else:
                 rfman.execute(
                     action,
