@@ -12,7 +12,7 @@ See [config/format.conf](./config/format.conf) for the default configuration fil
 
 By default, I've included lots of the `format`ers/`lint`ers I use, an excerpt:
 
-```
+```yaml
 # html
 ext x?html?, has prettier = prettier -w "$@"
 # web technologies, handled by prettier
