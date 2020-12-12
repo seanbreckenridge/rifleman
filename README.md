@@ -35,6 +35,8 @@ mime text/x-shellscript, has shfmt = shfmt -w "$@"
 
 Used [emacs-format-all-the-code](https://github.com/lassik/emacs-format-all-the-code) as reference.
 
+Though the example is here is for code, similar to rifle, this could be used to dispatch against any file/mime type. I've included [image_optimize.conf](config/image_optimize.conf), which takes any files as inputs, matches the `image/png|jpeg|gif` mimetypes, and runs `optipng`/`jpegtran`/`gifsicle` on those to reduce their filesize. That could be run like `fd -X rifleman -a image_optimize`, to optimize all images in any subdirectores
+
 Feel free to PR additional formatters!
 
 ## Installation
