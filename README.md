@@ -93,6 +93,8 @@ The `-c` and `-a` files are used to determine which config file to use, complete
 
 By default, it uses the `format.conf` file in the `${XDG_CONFIG_HOME:-${HOME}/.config}/rifleman` directory. `-a` is a shorthand; specifying `-a lint` looks for a file in the configuration directory called `lint.conf`
 
+When this is first run, it will try to download the configuration files into the corresponding directories.
+
 If you're trying to debug which mimetype to use for a particular file, you can use the `-m` flag, to dump the mimetype `rifleman` determines.
 
 ```bash
@@ -103,8 +105,6 @@ rifleman/__main__.py:text/x-python
 ```
 
 For reference, that works by checking the known user-defined mimetypes at `~/.mime.types`, using the builtin [`mimetypes`](https://docs.python.org/3/library/mimetypes.html) python module. If that fails to find a mimetype, it runs the command: `file --mime-type -Lb <file>`.
-
-When this is first run, it will try to download the configuration files into the corresponding directories.
 
 ### Example
 
