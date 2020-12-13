@@ -73,6 +73,11 @@ def main() -> None:
         help="list actions for files as JSON",
     )
     parser.add_option(
+        "-m",
+        action="store_true",
+        help="list computed mime type for each file",
+    )
+    parser.add_option(
         "-p",
         action="store_true",
         help="prompt before running each command",
@@ -131,7 +136,9 @@ def main() -> None:
 
     rfman = RifleMan(conf_path)
     rfman.reload_config()
-    resp: Optional[str] = run(rfman, options.l, options.j, options.p, positionals)
+    resp: Optional[str] = run(
+        rfman, options.l, options.j, options.m, options.p, positionals
+    )
     if resp is not None:
         print(resp)
 
@@ -153,12 +160,19 @@ def run(
     rfman: RifleMan,
     list_actions: bool,
     json_actions: bool,
+    print_mimetypes: bool,
     prompt_before_executing: bool,
     files: Files,
 ) -> Optional[str]:
     # main wrapper
     # if user provided a flag to print actions
     # as a list or as JSON, returns the stirng to print
+
+    if print_mimetypes:
+        mbuf: str = ""
+        for file in files:
+            mbuf += "{}:{}\n".format(file, rfman.get_mimetype(file))
+        return mbuf.strip()
 
     actions: Actions = rfman.collect_actions(files)
 

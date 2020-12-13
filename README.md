@@ -60,10 +60,11 @@ Options:
   -h, --help      show this help message and exit
   -l              list actions for files
   -j              list actions for files as JSON
+  -m              print computed mime type for each file
   -p              prompt before running each command
   -c CONFIG_FILE  read config from specified file instead of default
   -a ACTION       name of configuration file in config directory to use
-                  (lint|format)
+                  (lint|format|image_optimize)
 ```
 
 This doesn't offer a way to discover/search for files, because so many tools already exist to do that.
@@ -91,6 +92,17 @@ The `-j` and `-l` flags print what commands which would be used on each file ins
 The `-c` and `-a` files are used to determine which config file to use, completely altering the functionality of this.
 
 By default, it uses the `format.conf` file in the `${XDG_CONFIG_HOME:-${HOME}/.config}/rifleman` directory. `-a` is a shorthand; specifying `-a lint` looks for a file in the configuration directory called `lint.conf`
+
+If you're trying to debug which mimetype to use for a particular file, you can use the `-m` flag, to dump the mimetype `rifleman` determines.
+
+```bash
+$ git ls-files | shuf -n 3 | rifleman - -m
+pytest.ini:text/plain
+rifleman/py.typed:inode/x-empty
+rifleman/__main__.py:text/x-python
+```
+
+For reference, that works by checking the known user-defined mimetypes at `~/.mime.types`, using the builtin [`mimetypes`](https://docs.python.org/3/library/mimetypes.html) python module. If that fails to find a mimetype, it runs the command: `file --mime-type -Lb <file>`.
 
 When this is first run, it will try to download the configuration files into the corresponding directories.
 
