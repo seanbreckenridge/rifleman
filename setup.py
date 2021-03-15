@@ -7,9 +7,10 @@ requirements = ["requests"]
 with io.open("README.md", encoding="utf-8") as fo:
     long_description = fo.read()
 
+pkg = "rifleman"
 setup(
-    name="rifleman",
-    version="0.1.7",
+    name=pkg,
+    version="0.1.8",
     url="https://github.com/seanbreckenridge/rifleman",
     author="Sean Breckenridge",
     author_email="seanbrecke@gmail.com",
@@ -17,7 +18,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="https://raw.githubusercontent.com/ranger/ranger/master/LICENSE",
-    packages=find_packages(include=["rifleman"]),
+    packages=find_packages(include=[pkg]),
+    package_data={pkg: ["py.typed"]},
     test_suite="tests",
     install_requires=requirements,
     keywords="lint",
