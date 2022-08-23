@@ -10,7 +10,7 @@ with io.open("README.md", encoding="utf-8") as fo:
 pkg = "rifleman"
 setup(
     name=pkg,
-    version="0.1.8",
+    version="0.1.9",
     url="https://github.com/seanbreckenridge/rifleman",
     author="Sean Breckenridge",
     author_email="seanbrecke@gmail.com",

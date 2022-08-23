@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from optparse import OptionParser
 
-from typing import Optional
+from typing import Optional, List
 
 from . import RifleMan, Actions, Files, IGNORE
 
@@ -60,6 +60,7 @@ def main() -> None:
     """Handles parsing arguments from the user"""
 
     conf_dir: Path = find_conf_dir()
+    conf_files: List[str] = [p.stem for p in Path(conf_dir).glob("*.conf")]
 
     parser = OptionParser(
         usage="rifleman [-] [-ljpcah] [files]...", description=DESCRIPTION
@@ -97,7 +98,7 @@ def main() -> None:
         default=None,
         metavar="ACTION",
         help="name of configuration file in config directory to use ({})".format(
-            "|".join([c.rstrip(".conf") for c in os.listdir(str(conf_dir))])
+            "|".join(conf_files)
         ),
     )
     options, positionals = parser.parse_args()
@@ -114,7 +115,7 @@ def main() -> None:
 
     conf_path: Path = Path(options.c)
     if options.a is not None:
-        conf_slug: str = options.a.rstrip(".conf")
+        conf_slug: str = options.a
         # try to create a path which correspondings to this action
         act_path: Path = conf_dir / f"{conf_slug}.conf"
         if not act_path.exists():
