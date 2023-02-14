@@ -99,14 +99,14 @@ def Popen_handler(
     cmd: List[str],
     print_cmd: bool = True,
     prompt_func: Optional[Callable[[str], bool]] = None,
-) -> None:
+) -> Optional[int]:
     cmd_str: str = " ".join(cmd)
     if prompt_func is not None:
         if not prompt_func(cmd_str):
             return
     if print_cmd:
         print("Running: {}".format(cmd_str))
-    Popen(cmd).wait()
+    return Popen(cmd).wait()
 
 
 class RifleMan:
