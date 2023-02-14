@@ -103,7 +103,7 @@ def Popen_handler(
     cmd_str: str = " ".join(cmd)
     if prompt_func is not None:
         if not prompt_func(cmd_str):
-            return
+            return None
     if print_cmd:
         print("Running: {}".format(cmd_str))
     return Popen(cmd).wait()
