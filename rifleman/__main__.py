@@ -169,7 +169,7 @@ def run(
 ) -> Optional[str]:
     # main wrapper
     # if user provided a flag to print actions
-    # as a list or as JSON, returns the stirng to print
+    # as a list or as JSON, returns the string to print
 
     if print_mimetypes:
         mbuf: str = ""

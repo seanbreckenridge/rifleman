@@ -245,7 +245,7 @@ class RifleMan:
                 continue
             for cmd, tests in self.rules:
                 for test in tests:
-                    # unsure why mypy cant catch that test is of type Condition
+                    # unsure why mypy can't catch that test is of type Condition
                     if not self._eval_condition(test, fname):  # type: ignore[arg-type]
                         break  # break out of tests
                 else:
@@ -253,7 +253,7 @@ class RifleMan:
                     actions[cmd].append(fname)
                     break  # break out of rules
             else:
-                # if no rules matched - this didnt match any conditions
+                # if no rules matched - this didn't match any conditions
                 actions[IGNORE].append(fname)
         return actions
 
